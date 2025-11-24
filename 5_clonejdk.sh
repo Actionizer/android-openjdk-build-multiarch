@@ -3,7 +3,7 @@ set -e
 
 if [[ $TARGET_VERSION -eq 21 ]]; then
     git clone --branch jdk21.0.1 --depth 1 https://github.com/openjdk/jdk21u openjdk-21
-    PATCH="${{GITHUB.WORKSPACE}}/patches/jre_21/ios/fix_fdopen.patch"
+    PATCH="./patches/jre_21/ios/fix_fdopen.patch"
     echo "Looking for patch at $PATCH"
     if [ ! -f "$PATCH" ]; then
         echo "Patch not found at $PATCH" >&2

@@ -66,32 +66,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Apply repo-root patch (idempotent)
-        if: runner.os == 'macOS'
-        run: |
-          set -euo pipefail
-          PATCH="${{GITHUB.WORKSPACE}}/patches/jre_21/ios/fix_fdopen.patch"
-          echo "Looking for patch at $PATCH"
-          if [ ! -f "$PATCH" ]; then
-            echo "Patch not found at $PATCH" >&2
-            exit 1
-          fi
-
-          # If the patch cleanly applies, apply it.
-          if git apply --check "$PATCH" 2>/dev/null; then
-            git apply "$PATCH"
-            echo "Patch applied"
-          # If the reverse of the patch applies cleanly, the patch was already applied.
-          elif git apply --check --reverse "$PATCH" 2>/dev/null; then
-            echo "Patch already applied; skipping"
-          else
-            echo "Patch cannot be applied cleanly. Showing git apply --check output:" >&2
-            git apply --check "$PATCH" || true
-            echo "Attempting git apply --reject to capture rejects for manual inspection" >&2
-            git apply --reject "$PATCH" || true
-            exit 1
-          fi
-
       - name: Build with CI build script
         run: |
           export PATH=/opt/procursus/bin:/opt/homebrew/bin:$PATH

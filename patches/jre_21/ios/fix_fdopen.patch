@@ -1,0 +1,19 @@
+*** Begin Patch
+*** Update File: openjdk-21/src/java.base/share/native/libzip/zlib/zutil.h
+@@
+-#        define fdopen(fd,mode) NULL /* No fdopen() */
++/* Only redefine fdopen when building for platforms that actually lack it.
++   Do not override fdopen when compiling against the macOS SDK. */
++#if defined(__APPLE__)
++#  include <TargetConditionals.h>
++#  if defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE
++#    /* iOS (device/simulator) — keep previous behavior if fdopen is missing */
++#    define fdopen(fd,mode) NULL /* No fdopen() */
++#  endif
++#else
++#  /* Non-Apple platforms: only redefine when configure indicates absence */
++#  ifndef HAVE_FDOPEN
++#    define fdopen(fd,mode) NULL /* No fdopen() */
++#  endif
++#endif
+*** End Patch

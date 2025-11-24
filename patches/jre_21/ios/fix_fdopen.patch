@@ -1,5 +1,6 @@
-*** Begin Patch
-*** Update File: openjdk-21/src/java.base/share/native/libzip/zlib/zutil.h
+diff --git a/openjdk-21/src/java.base/share/native/libzip/zlib/zutil.h b/openjdk-21/src/java.base/share/native/libzip/zlib/zutil.h
+--- a/openjdk-21/src/java.base/share/native/libzip/zlib/zutil.h
++++ b/openjdk-21/src/java.base/share/native/libzip/zlib/zutil.h
 @@
 -#        define fdopen(fd,mode) NULL /* No fdopen() */
 +/* Only redefine fdopen when building for platforms that actually lack it.
@@ -16,4 +17,3 @@
 +#    define fdopen(fd,mode) NULL /* No fdopen() */
 +#  endif
 +#endif
-*** End Patch

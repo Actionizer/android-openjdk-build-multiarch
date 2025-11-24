@@ -70,7 +70,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           set -euo pipefail
-          PATCH="./patches/jre_21/ios/fix_fdopen.patch"
+          PATCH="${{GITHUB.WORKSPACE}}/patches/jre_21/ios/fix_fdopen.patch"
           echo "Looking for patch at $PATCH"
           if [ ! -f "$PATCH" ]; then
             echo "Patch not found at $PATCH" >&2
